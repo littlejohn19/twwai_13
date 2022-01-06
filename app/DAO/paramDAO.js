@@ -42,6 +42,8 @@ async function search(content) {
 }
 
 async function createNewOrUpdate(data) {
+    data.date = new Date().toISOString().substr(0, 19).replace('T', ' ');
+    console.log(data)
     return Promise.resolve().then(() => {
         if (!data.id) {
             return new ParamModel(data).save().then(result => {
