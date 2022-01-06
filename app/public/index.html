@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Programowanie reakatywne</title>
+</head>
+<body>
+<div>
+    <label for="temp">Temp:</label><br>
+    <input type="number" id="temp" name="temp" placeholder="Type temperature..." required><br>
+    <label for="hum">Humidity:</label><br>
+    <input type="number" id="hum" name="hum" placeholder="Type humidity..." required><br>
+    <label for="press">Atmospheric pressure:</label><br>
+    <input type="number" id="press" name="press" placeholder="Type pressure..." required><br>
+    <label for="param">Extra param:</label><br>
+    <input type="number" id="param" name="param" placeholder="Type extra param..." required><br>
+    <button class="send">Send</button>
+</div>
+
+<h2 class="info">d</h2>
+</body>
+
+<script>
+
+    let temp = document.querySelector('#temp').value;
+    let hum = document.querySelector('#hum').value;
+    let press = document.querySelector('#press').value;
+    let extraParam = document.querySelector('#param').value;
+    let info = document.querySelector('.info');
+    let send = document.querySelector('.send');
+
+
+    send.addEventListener('click', action);
+
+    function action() {
+        if (!temp || !hum || !press || !extraParam) {
+            info.innerHTML = "Uzupełnij wszysktie dane";
+        } else {
+            info.innerHTML = '';
+            let data = {
+                temp,
+                hum,
+                extraParam,
+                press
+            }
+
+            fetch('https://dpiwko.pl/', {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+
+</script>
+
+
+</html>
