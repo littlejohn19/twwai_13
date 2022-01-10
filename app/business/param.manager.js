@@ -16,7 +16,31 @@ function create(context) {
     }
 
     async function createNewOrUpdate(data) {
-        let result = await movieDAO.createNewOrUpdate(data);
+
+        let toSave = {};
+
+        if (data.air) {
+            const { air } = data;
+
+            air.forEach(item => {
+                if (item.id === 1) {
+                    toSave.temp = item.value;
+                }
+                if (item.id === 2) {
+                    toSave.pressure = item.value;
+                }
+                if (item.id === 3) {
+                    toSave.humidity = item.value;
+                }
+            });
+            toSave.extraParam = data.extraParam;
+        }
+
+        if (data.temp && data.humidity && data.pressure) {
+            toSave = data;
+        }
+
+        let result = await movieDAO.createNewOrUpdate(toSave);
         if (result) {
             return result;
         }
