@@ -22,26 +22,39 @@
 
 <script>
 
-    let temp = document.querySelector('#temp').value;
-    let hum = document.querySelector('#hum').value;
-    let press = document.querySelector('#press').value;
-    let extraParam = document.querySelector('#param').value;
+    let temp = document.querySelector('#temp');
+    let hum = document.querySelector('#hum');
+    let press = document.querySelector('#press');
+    let extraParam = document.querySelector('#param');
     let info = document.querySelector('.info');
     let send = document.querySelector('.send');
 
+    clear();
 
     send.addEventListener('click', action);
 
+    function clear() {
+        temp.value = null;
+        hum.value = null;
+        press.value = null;
+        extraParam.value = null;
+    }
+
     function action() {
-        if (!temp || !hum || !press || !extraParam) {
-            info.innerHTML = "Uzupełnij wszysktie dane";
+        let temperature = temp.value;
+        let humidity = hum.value;
+        let pressure = press.value;
+        let extraParamToSend = extraParam.value || 0;
+
+        if (!temperature || !humidity || !pressure) {
+            info.innerHTML = "Uzupełnij wszystkie dane";
         } else {
             info.innerHTML = '';
             let data = {
-                temp,
-                hum,
-                extraParam,
-                press
+                temp: temperature,
+                humidity: humidity,
+                pressure: pressure,
+                extraParam: extraParamToSend
             }
 
             fetch('https://twwai-pr1.herokuapp.com/api/params', {
@@ -58,6 +71,8 @@
                 .catch((error) => {
                     console.error('Error:', error);
                 });
+
+            clear();
         }
     }
 
