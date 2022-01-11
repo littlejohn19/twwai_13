@@ -1,15 +1,22 @@
-import movieDAO from '../DAO/paramDAO';
+import paramDAO from '../DAO/paramDAO';
 
 function create(context) {
     async function query() {
-        let result = movieDAO.query();
+        let result = paramDAO.query();
         if (result) {
             return result;
         }
     }
 
     async function get(id) {
-        let result = await movieDAO.get(id);
+        let result = await paramDAO.get(id);
+        if (result) {
+            return result;
+        }
+    }
+
+    async function getLast() {
+        let result = await paramDAO.getLast();
         if (result) {
             return result;
         }
@@ -40,14 +47,14 @@ function create(context) {
             toSave = data;
         }
 
-        let result = await movieDAO.createNewOrUpdate(toSave);
+        let result = await paramDAO.createNewOrUpdate(toSave);
         if (result) {
             return result;
         }
     }
 
     async function search(data) {
-        let result = await movieDAO.search(data);
+        let result = await paramDAO.search(data);
         if (result) {
             return result;
         }
@@ -57,7 +64,8 @@ function create(context) {
         query: query,
         get: get,
         createNewOrUpdate: createNewOrUpdate,
-        search
+        search,
+        getLast
     };
 }
 

@@ -33,6 +33,14 @@ async function get(id) {
     });
 }
 
+async function getLast() {
+    return ParamModel.findOne().sort({'_id':-1}).limit(1).then(function (result) {
+        if (result) {
+            return mongoConverter(result);
+        }
+    })
+}
+
 async function search(content) {
     return ParamModel.find(content).then(function (result) {
         if (result) {
@@ -61,6 +69,7 @@ export default {
     get: get,
     createNewOrUpdate: createNewOrUpdate,
     search,
+    getLast,
 
     model: ParamModel
 };
