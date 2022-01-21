@@ -1,18 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
 
-import {LineChart} from "./components/LineChart";
-import {Data} from "./components/Data";
+
+import {NavBar} from "./components/NavBar";
+import {Dashboard} from "./components/Dashboard";
+
 
 function App() {
 
 
-  return (
-      <div className="App">
-          <Data></Data>
-        <LineChart></LineChart>
-      </div>
-  );
+    return (
+        <div className="App">
+            <NavBar/>
+            <Dashboard/>
+        </div>
+    );
 }
 
 export default App;

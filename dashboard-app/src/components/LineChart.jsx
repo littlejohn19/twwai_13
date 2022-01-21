@@ -28,52 +28,17 @@ export const options = {
     plugins: {
         legend: {
             position: 'top',
-        },
-        title: {
-            display: true,
-            text: 'Chart.js Line Chart',
-        },
+        }
     },
 };
 
-export function LineChart() {
+export function LineChart(props) {
 
-
-
-    const [chartData, chartDataSet] = useState(null);
-
-    useEffect( () => {
-        const fetchAir = async () => {
-            let data = {
-                labels: [],
-                datasets: [
-                    {
-                        label: 'Temperatura',
-                        data: [],
-                        borderColor: 'rgb(255, 99, 132)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                    }
-                ],
-            };
-
-            const res = await fetch("https://twwai-pr1.herokuapp.com/api/params")
-            const dataRes = await res.json();
-
-            data.datasets[0].data = dataRes.map(item => {
-                return item.temp;
-            })
-
-            data.labels = dataRes.map (item => {
-                return item.date;
-            })
-            chartDataSet(data);
-        }
-        fetchAir()
-    }, []);
-
-    if (!chartData) {
+    if (!props.data) {
         return null;
     }
 
-    return <Line options={options} data={chartData} height={200} width={200}/>;
+    return <div className="radius-box">
+        <Line options={options} data={props.data}/>
+    </div>;
 }

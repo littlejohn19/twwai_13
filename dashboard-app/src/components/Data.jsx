@@ -1,79 +1,39 @@
 import React from 'react';
-import { useEffect, useState } from "react";
 
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+const styles = {
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
-
-export const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-            text: 'Chart.js Line Chart',
-        },
-    },
+    float: 'left',
+    width: '410px',
+    position: 'relative',
+    zIndex: '99'
 };
 
-export function Data() {
+export function Data(props) {
 
-
-
-    const [chartData, chartDataSet] = useState(null);
-
-    useEffect( () => {
-        const fetchAir = async () => {
-            let data = {
-                labels: [],
-                datasets: [
-                    {
-                        label: 'Temperatura',
-                        data: [],
-                        borderColor: 'rgb(255, 99, 132)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                    }
-                ],
-            };
-
-            const res = await fetch("http://localhost:3001/api/params/last")
-            const dataRes = await res.json();
-
-            chartDataSet(dataRes);
-        }
-        fetchAir()
-    }, []);
-
-    if (!chartData) {
+    if (!props.data) {
         return null;
     }
 
-    return (<div>
-        <h1>Current state:</h1>
-        <ul>
-            <li>Temp: {chartData.temp}</li>
-            <li>Humidity: {chartData.humidity}</li>
-            <li>Pressure: {chartData.pressure}</li>
-        </ul>
+    return (<div className="container-fluid" >
+        <div className="row">
+            <div className="radius-box" style={styles}>
+                <h6>Current state:</h6>
+                Temp {props.data.temp} &#x2103; <div className="progress">
+                     <div className="progress-bar bg-success" role="progressbar" style={{'width': props.data.temp / 60 * 100 + '%' }} aria-valuenow={props.data.temp / 60 * 100}
+                               aria-valuemin="0" aria-valuemax="50"></div>
+                </div>
+                Humidity {props.data.humidity}%
+                <div className="progress">
+                     <div className="progress-bar bg-info" role="progressbar" style={{'width': props.data.humidity + '%'}} aria-valuenow={props.data.humidity}
+                                   aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                Pressure {props.data.pressure} hPa
+                <div className="progress">
+                     <div className="progress-bar bg-warning" role="progressbar" style={{'width': props.data.pressure / 1400 * 100 + '%'}} aria-valuenow={props.data.pressure}
+                                   aria-valuemin="0" aria-valuemax="1400"></div>
+                </div>
+
+            </div>
+        </div>
     </div>);
 }

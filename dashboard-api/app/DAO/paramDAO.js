@@ -26,23 +26,21 @@ async function query() {
 }
 
 async function get(id) {
-    return ParamModel.findOne({_id: id}).then(function (result) {
-        if (result) {
-            return mongoConverter(result);
-        }
-    });
+    const result = await ParamModel.findOne({_id: id});
+    if (result) {
+        return mongoConverter(result);
+    }
 }
 
 async function getLast() {
-    return ParamModel.findOne().sort({'_id':-1}).limit(1).then(function (result) {
-        if (result) {
-            return mongoConverter(result);
-        }
-    })
+    const result = await ParamModel.findOne().sort({'_id': -1}).limit(1);
+    if (result) {
+        return mongoConverter(result);
+    }
 }
 
 async function search(content) {
-    return ParamModel.find(content).then(function (result) {
+    return ParamModel.find({date: {$regex: content}}).then(function (result) {
         if (result) {
             return mongoConverter(result);
         }
